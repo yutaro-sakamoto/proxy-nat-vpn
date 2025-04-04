@@ -1,5 +1,2 @@
-export class Hello {
-  public sayHello() {
-    return 'hello, world!';
-  }
-}
+export * from './proxy-nat-vpn';
+export * from '../example/proxy-nat-vpn-stack';
