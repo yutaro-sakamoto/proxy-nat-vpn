@@ -4,7 +4,7 @@ name: release
 on:
   push:
     branches:
-      - main
+      - release
   workflow_dispatch: {}
 concurrency:
   group: ${{ github.workflow }}
@@ -34,8 +34,8 @@ jobs:
           node-version: lts/*
       - name: Install dependencies
         run: yarn install --check-files --frozen-lockfile
-      - name: release
-        run: npx projen release
+      - name: release:release
+        run: npx projen release:release
       - name: Check if version has already been tagged
         id: check_tag_exists
         run: |-

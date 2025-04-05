@@ -3,7 +3,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Yutaro Sakamoto',
   authorAddress: 'mail@yutaro-sakamoto.com',
   cdkVersion: '2.1.0',
-  defaultReleaseBranch: 'main',
+  defaultReleaseBranch: 'release',
   jsiiVersion: '~5.8.0',
   name: 'proxy-nat-vpn',
   projenrcTs: true,
