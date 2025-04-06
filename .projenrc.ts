@@ -21,6 +21,36 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
 project.gitignore.addPatterns('cdk.out')
 
+new YamlFile(project, '.github/workflows/check-workflows.yml', {
+  obj: {
+    name: 'Check workflow files',
+    on: 'workflow_call',
+    permissions: {
+      contents: 'read',
+    },
+    jobs: {
+      build: {
+        'runs-on': 'ubuntu-latest',
+        'steps': [
+          {
+            name: 'Checkout',
+            uses: 'actions/checkout@v4',
+          },
+          {
+            name: 'Install actionlint',
+            run: 'GOBIN=$(pwd) go install github.com/rhysd/actionlint/cmd/actionlint@latest',
+          },
+          {
+            name: 'Run actionlint',
+            run: 'find .github/workflows -name "*.yml" ! -name "upgrade.yml" ! -name "build.yml" ! -name "pull-request-lint.yml" -print0 | xargs -0 ./actionlint',
+          },
+        ],
+      },
+    },
+  },
+});
+
+
 new YamlFile(project, '.github/workflows/push.yml', {
   obj: {
     name: 'push',
