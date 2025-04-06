@@ -49,6 +49,7 @@ junit.xml
 .jsii
 tsconfig.json
 !/API.md
+cdk.out
 !/.github/workflows/push.yml
 !/.github/workflows/test.yml
 !/.projenrc.ts

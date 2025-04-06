@@ -19,6 +19,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // packageName: undefined,  /* The "name" in package.json. */
 });
 
+project.gitignore.addPatterns('cdk.out')
+
 new YamlFile(project, '.github/workflows/push.yml', {
   obj: {
     name: 'push',
