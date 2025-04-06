@@ -20,6 +20,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 project.gitignore.addPatterns('cdk.out')
+project.gitignore.addPatterns('.env')
+project.addDeps('dotenv')
 
 new YamlFile(project, '.github/workflows/check-workflows.yml', {
   obj: {
@@ -128,6 +130,10 @@ new YamlFile(project, '.github/workflows/test.yml', {
           {
             name: 'synth',
             run: 'npx cdk synth',
+            env: {
+              SERVER_CERT_ARN: 'dummy_arn',
+              CLIENT_CERT_ARN: 'dummy_arn',
+            },
           },
           {
             name: 'Check docs',
@@ -139,5 +145,98 @@ new YamlFile(project, '.github/workflows/test.yml', {
   },
 });
 
+// Adding deploy.yml workflow file with VPN certificate ARN environment variables
+new YamlFile(project, '.github/workflows/deploy.yml', {
+  obj: {
+    name: 'deploy',
+    on: {
+      workflow_call: {},
+    },
+    permissions: {
+      'id-token': 'write', // Needed for AWS authentication
+      'contents': 'read',
+    },
+    jobs: {
+      deploy: {
+        'runs-on': 'ubuntu-latest',
+        'steps': [
+          {
+            name: 'Checkout',
+            uses: 'actions/checkout@v4',
+          },
+          {
+            name: 'Setup Node.js',
+            uses: 'actions/setup-node@v4',
+            with: {
+              'node-version': '22',
+              'cache': 'yarn',
+              'cache-dependency-path': 'yarn.lock',
+            },
+          },
+          {
+            name: 'Install dependencies',
+            run: 'yarn install --frozen-lockfile',
+          },
+          {
+            name: 'Configure AWS credentials',
+            uses: 'aws-actions/configure-aws-credentials@v4',
+            with: {
+              'role-to-assume': '${{ secrets.AWS_ROLE_TO_ASSUME }}',
+              'aws-region': '${{ secrets.AWS_REGION }}',
+            },
+          },
+          {
+            name: 'Deploy CDK stack',
+            run: 'npx cdk deploy --require-approval never',
+            env: {
+              'CDK_DEFAULT_ACCOUNT': '${{ secrets.AWS_ACCOUNT_ID }}',
+              'CDK_DEFAULT_REGION': '${{ secrets.AWS_REGION }}',
+              'SERVER_CERT_ARN': '${{ secrets.SERVER_CERT_ARN }}',
+              'CLIENT_CERT_ARN': '${{ secrets.CLIENT_CERT_ARN }}',
+            },
+          },
+        ],
+      },
+    },
+  },
+});
+
+// Adding test-deploy.yml workflow file for test-deploy branch
+new YamlFile(project, '.github/workflows/test-deploy.yml', {
+  obj: {
+    name: 'test-deploy',
+    on: {
+      push: {
+        branches: ['test-deploy'],
+      },
+    },
+    concurrency: {
+      'group': '${{ github.workflow }}-${{ github.ref }}',
+      'cancel-in-progress': true,
+    },
+    permissions: {
+      'contents': 'read',
+      'id-token': 'write', // Needed for AWS authentication
+    },
+    jobs: {
+      'check-workflows': {
+        permissions: {
+          contents: 'read',
+        },
+        uses: './.github/workflows/check-workflows.yml',
+      },
+      'test': {
+        needs: 'check-workflows',
+        secrets: 'inherit',
+        uses: './.github/workflows/test.yml',
+      },
+      'deploy': {
+        needs: 'test',
+        secrets: 'inherit',
+        uses: './.github/workflows/deploy.yml',
+      },
+    },
+  },
+});
 
 project.synth();

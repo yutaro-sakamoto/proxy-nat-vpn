@@ -23,5 +23,8 @@ jobs:
         run: yarn test
       - name: synth
         run: npx cdk synth
+        env:
+          SERVER_CERT_ARN: dummy_arn
+          CLIENT_CERT_ARN: dummy_arn
       - name: Check docs
         run: npx typedoc --validation src/*.ts

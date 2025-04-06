@@ -50,7 +50,10 @@ junit.xml
 tsconfig.json
 !/API.md
 cdk.out
+.env
 !/.github/workflows/check-workflows.yml
 !/.github/workflows/push.yml
 !/.github/workflows/test.yml
+!/.github/workflows/deploy.yml
+!/.github/workflows/test-deploy.yml
 !/.projenrc.ts
