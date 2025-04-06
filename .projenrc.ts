@@ -126,6 +126,10 @@ new YamlFile(project, '.github/workflows/test.yml', {
             run: 'yarn test',
           },
           {
+            name: 'synth',
+            run: 'npx cdk synth',
+          },
+          {
             name: 'Check docs',
             run: 'npx typedoc --validation src/*.ts',
           },

@@ -21,5 +21,7 @@ jobs:
         run: yarn eslint
       - name: Tests
         run: yarn test
+      - name: synth
+        run: npx cdk synth
       - name: Check docs
         run: npx typedoc --validation src/*.ts
