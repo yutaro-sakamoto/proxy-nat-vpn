@@ -193,6 +193,7 @@ new YamlFile(project, '.github/workflows/deploy.yml', {
               'CDK_DEFAULT_REGION': '${{ secrets.AWS_REGION }}',
               'SERVER_CERT_ARN': '${{ secrets.SERVER_CERT_ARN }}',
               'CLIENT_CERT_ARN': '${{ secrets.CLIENT_CERT_ARN }}',
+              'EIP_ALLOCATION_ID': '${{ secrets.EIP_ALLOCATION_ID }}', // Optional, if not provided, a new EIP will be created
             },
           },
         ],
