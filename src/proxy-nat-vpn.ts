@@ -1,5 +1,7 @@
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as logs from "aws-cdk-lib/aws-logs";
 
 export interface ProxyNatVpnProps {
   /**
@@ -67,5 +69,23 @@ export class ProxyNatVpn extends Construct {
         },
       },
     );
+
+    // Add Vpc FlowLogs
+    const vpcFlowLogGroup = new logs.LogGroup(this, "VpcFlowLogGroup", {
+      retention: logs.RetentionDays.ONE_DAY,
+    });
+
+    const vpcFlowLogRole = new iam.Role(this, "VpcFlowLogRole", {
+      assumedBy: new iam.ServicePrincipal("vpc-flow-logs.amazonaws.com"),
+    });
+
+    new ec2.FlowLog(this, "VpcFlowLog", {
+      resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+      trafficType: ec2.FlowLogTrafficType.REJECT,
+      destination: ec2.FlowLogDestination.toCloudWatchLogs(
+        vpcFlowLogGroup,
+        vpcFlowLogRole,
+      ),
+    });
   }
 }

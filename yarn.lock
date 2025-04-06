@@ -1541,6 +1541,11 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.npmjs.org/case/-/case-1.6.3.tgz"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
+cdk-nag@2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.12.0.tgz#27bfb3fd7203a0d36c31661cb00719637af4b37b"
+  integrity sha512-nwBnEhMoFw80BJnnw7G2/ZqqNbYnerndyXrgZcNVcQ0aAzxTvxZtRBCuRMP5BwD+ddJi7NZ6eSERMMpMq70ayw==
+
 chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.npmjs.org/chalk/-/chalk-2.4.2.tgz"
