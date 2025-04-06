@@ -19,5 +19,3 @@ jobs:
     needs: check-workflows
     secrets: inherit
     uses: ./.github/workflows/test.yml
-    with:
-      environment: dev

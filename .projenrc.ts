@@ -77,9 +77,6 @@ new YamlFile(project, '.github/workflows/push.yml', {
         needs: 'check-workflows',
         secrets: 'inherit',
         uses: './.github/workflows/test.yml',
-        with: {
-          environment: 'dev',
-        },
       },
     },
   },
