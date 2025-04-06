@@ -47,6 +47,7 @@ new YamlFile(project, '.github/workflows/check-workflows.yml', {
               '! -name "build.yml" ' +
               '! -name "pull-request-lint.yml" ' +
               '! -name "release.yml" ' +
+              '! -name "upgrade-release.yml" ' +
               '-print0 | xargs -0 ./actionlint',
           },
         ],
