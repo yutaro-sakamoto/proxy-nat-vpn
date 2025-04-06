@@ -38,12 +38,12 @@ export class ProxyNatVpn extends Construct {
         {
           name: "Public",
           subnetType: ec2.SubnetType.PUBLIC,
-          cidrMask: 24,
+          cidrMask: 22,
         },
         {
           name: "Private",
           subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
-          cidrMask: 24,
+          cidrMask: 22,
         },
       ],
       natGateways: 1,
