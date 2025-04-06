@@ -36,33 +36,32 @@ export class ProxyNatVpn extends Construct {
       maxAzs: 1, // Ensure at least 2 AZs for high availability
       subnetConfiguration: [
         {
-          name: "Public",
+          cidrMask: 24,
+          name: "PublicSubnet",
           subnetType: ec2.SubnetType.PUBLIC,
-          cidrMask: 22,
         },
         {
-          name: "Private",
+          cidrMask: 24,
+          name: "PrivateSubnet",
           subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
-          cidrMask: 22,
         },
       ],
+      cidr: "10.0.0.0/16",
       natGateways: 1,
     });
 
-    // Associate with all private subnets
-    const privateSubnet = this.vpc.selectSubnets({
-      subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
-    }).subnets[0];
+    const privateSubnet = this.vpc.privateSubnets[0];
 
     this.clientVpnEndpoint = new ec2.ClientVpnEndpoint(
       this,
       "ClientVpnEndpoint",
       {
-        cidr: privateSubnet.ipv4CidrBlock,
+        cidr: "10.100.0.0/16",
         serverCertificateArn: clientVpnServerCertificateArn,
         clientCertificateArn: clientVpnClientCertificateArn,
         vpc: this.vpc,
         splitTunnel: true,
+        dnsServers: ["10.0.0.2"],
         vpcSubnets: {
           subnets: [privateSubnet],
         },
