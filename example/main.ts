@@ -15,6 +15,8 @@ Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
 
 const serverCertArn = process.env.SERVER_CERT_ARN;
 const clientCertArn = process.env.CLIENT_CERT_ARN;
+// 事前に用意したEIPのallocation IDを環境変数から取得
+const eipAllocationId = process.env.EIP_ALLOCATION_ID;
 
 if (!serverCertArn || !clientCertArn) {
   throw new Error(
@@ -29,4 +31,5 @@ new ProxyNatVpnStack(app, "ProxyNatVpnStack", {
   },
   serverCertArn,
   clientCertArn,
+  eipAllocationId, // 事前に用意したEIPのallocation IDを渡す（未指定の場合は自動的に新しいEIPが作成される）
 });

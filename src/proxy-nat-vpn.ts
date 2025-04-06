@@ -13,6 +13,13 @@ export interface ProxyNatVpnProps {
    * Client certificate ARN for Client VPN
    */
   clientVpnClientCertificateArn: string;
+
+  /**
+   * Allocation ID of an Elastic IP to use for the NAT Gateway
+   * If not provided, a new Elastic IP will be created automatically
+   * @default - A new Elastic IP is created
+   */
+  eipAllocationId?: string;
 }
 
 export class ProxyNatVpn extends Construct {
@@ -30,8 +37,18 @@ export class ProxyNatVpn extends Construct {
     super(scope, id);
 
     // Default values
-    const { clientVpnServerCertificateArn, clientVpnClientCertificateArn } =
-      props;
+    const {
+      clientVpnServerCertificateArn,
+      clientVpnClientCertificateArn,
+      eipAllocationId,
+    } = props;
+
+    // 指定されたEIP allocation IDがある場合は、それを使用する
+    const natGatewayProvider = eipAllocationId
+      ? ec2.NatProvider.gateway({
+          eipAllocationIds: [eipAllocationId],
+        })
+      : ec2.NatProvider.gateway(); // デフォルト動作: 自動的に新しいEIPを作成
 
     // Create VPC with public and private subnets
     this.vpc = new ec2.Vpc(this, "Vpc", {
@@ -50,6 +67,7 @@ export class ProxyNatVpn extends Construct {
       ],
       cidr: "10.0.0.0/16",
       natGateways: 1,
+      natGatewayProvider: natGatewayProvider,
     });
 
     const privateSubnet = this.vpc.privateSubnets[0];

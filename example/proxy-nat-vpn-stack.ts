@@ -14,6 +14,11 @@ export interface ProxyNatVpnStackProps extends cdk.StackProps {
    * Client certificate ARN for Client VPN
    */
   clientCertArn: string;
+  /**
+   * Allocation ID of an existing Elastic IP to use for NAT Gateway
+   * @default - A new Elastic IP is created automatically
+   */
+  eipAllocationId?: string;
 }
 
 export class ProxyNatVpnStack extends cdk.Stack {
@@ -24,6 +29,7 @@ export class ProxyNatVpnStack extends cdk.Stack {
     new ProxyNatVpn(this, "ProxyNatVpn", {
       clientVpnServerCertificateArn: props.serverCertArn,
       clientVpnClientCertificateArn: props.clientCertArn,
+      eipAllocationId: props.eipAllocationId,
     });
   }
 }
