@@ -19,9 +19,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // packageName: undefined,  /* The "name" in package.json. */
 });
 
-project.gitignore.addPatterns('cdk.out')
-project.gitignore.addPatterns('.env')
-project.addDeps('dotenv')
+project.gitignore.addPatterns('cdk.out');
+project.gitignore.addPatterns('.env');
+project.addDeps('dotenv');
 
 new YamlFile(project, '.github/workflows/check-workflows.yml', {
   obj: {
