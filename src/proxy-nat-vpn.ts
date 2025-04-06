@@ -62,17 +62,10 @@ export class ProxyNatVpn extends Construct {
         serverCertificateArn: clientVpnServerCertificateArn,
         clientCertificateArn: clientVpnClientCertificateArn,
         vpc: this.vpc,
-        authorizeAllUsersToVpcCidr: true,
         splitTunnel: true,
-      },
-    );
-
-    new ec2.CfnClientVpnTargetNetworkAssociation(
-      this,
-      "VpnNetworkAssociation",
-      {
-        clientVpnEndpointId: this.clientVpnEndpoint.endpointId,
-        subnetId: privateSubnet.subnetId,
+        vpcSubnets: {
+          subnets: [privateSubnet],
+        },
       },
     );
   }
