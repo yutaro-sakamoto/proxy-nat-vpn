@@ -42,7 +42,12 @@ new YamlFile(project, '.github/workflows/check-workflows.yml', {
           },
           {
             name: 'Run actionlint',
-            run: 'find .github/workflows -name "*.yml" ! -name "upgrade.yml" ! -name "build.yml" ! -name "pull-request-lint.yml" -print0 | xargs -0 ./actionlint',
+            run: 'find .github/workflows -name "*.yml" ' +
+              '! -name "upgrade.yml" ' +
+              '! -name "build.yml" ' +
+              '! -name "pull-request-lint.yml" ' +
+              '! -name "release.yml" ' +
+              '-print0 | xargs -0 ./actionlint',
           },
         ],
       },
