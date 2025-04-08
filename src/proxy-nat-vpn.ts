@@ -80,7 +80,7 @@ export class ProxyNatVpn extends Construct {
         serverCertificateArn: clientVpnServerCertificateArn,
         clientCertificateArn: clientVpnClientCertificateArn,
         vpc: this.vpc,
-        splitTunnel: true,
+        splitTunnel: false,
         dnsServers: ["10.0.0.2"],
         vpcSubnets: {
           subnets: [privateSubnet],
