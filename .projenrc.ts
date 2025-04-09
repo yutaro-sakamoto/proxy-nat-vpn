@@ -115,8 +115,8 @@ new YamlFile(project, '.github/workflows/test.yml', {
             run: 'yarn install',
           },
           {
-            name: 'Check format by Prettier',
-            run: 'npx prettier src test example --check',
+            name: 'Check format',
+            run: 'npx projen build && git diff --ignore-space-at-eol --exit-code',
           },
           {
             name: 'Check by ESLint',
