@@ -15,8 +15,8 @@ jobs:
           cache: yarn
           cache-dependency-path: yarn.lock
       - run: yarn install
-      - name: Check format by Prettier
-        run: npx prettier src test example --check
+      - name: Check format
+        run: npx projen build && git diff --ignore-space-at-eol --exit-code
       - name: Check by ESLint
         run: yarn eslint
       - name: Tests
