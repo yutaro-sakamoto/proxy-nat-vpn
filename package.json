@@ -2,7 +2,7 @@
   "name": "proxy-nat-vpn",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mail/proxy-nat-vpn.git"
+    "url": "https://github.com/yutaro-sakamoto/proxy-nat-vpn.git"
   },
   "scripts": {
     "build": "npx projen build",

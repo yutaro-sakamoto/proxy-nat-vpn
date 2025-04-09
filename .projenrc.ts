@@ -10,7 +10,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jsiiVersion: '~5.8.0',
   name: 'proxy-nat-vpn',
   projenrcTs: true,
-  repositoryUrl: 'https://github.com/mail/proxy-nat-vpn.git',
+  repositoryUrl: 'https://github.com/yutaro-sakamoto/proxy-nat-vpn.git',
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
