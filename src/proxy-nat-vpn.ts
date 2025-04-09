@@ -88,6 +88,17 @@ export class ProxyNatVpn extends Construct {
       },
     );
 
+    this.clientVpnEndpoint.addRoute("InternetRoute", {
+      cidr: "0.0.0.0/0",
+      target: ec2.ClientVpnRouteTarget.subnet(privateSubnet),
+      description: "Route to the internet via NAT Gateway",
+    });
+
+    this.clientVpnEndpoint.addAuthorizationRule("AllowInternet", {
+      cidr: "0.0.0.0/0",
+      description: "Allow internet access",
+    });
+
     // Add Vpc FlowLogs
     const vpcFlowLogGroup = new logs.LogGroup(this, "VpcFlowLogGroup", {
       retention: logs.RetentionDays.ONE_DAY,
