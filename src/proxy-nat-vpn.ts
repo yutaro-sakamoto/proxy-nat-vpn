@@ -7,19 +7,19 @@ export interface ProxyNatVpnProps {
   /**
    * Server certificate ARN for Client VPN
    */
-  clientVpnServerCertificateArn: string;
+  readonly clientVpnServerCertificateArn: string;
 
   /**
    * Client certificate ARN for Client VPN
    */
-  clientVpnClientCertificateArn: string;
+  readonly clientVpnClientCertificateArn: string;
 
   /**
    * Allocation ID of an Elastic IP to use for the NAT Gateway
    * If not provided, a new Elastic IP will be created automatically
    * @default - A new Elastic IP is created
    */
-  eipAllocationId?: string;
+  readonly eipAllocationId?: string;
 }
 
 export class ProxyNatVpn extends Construct {
