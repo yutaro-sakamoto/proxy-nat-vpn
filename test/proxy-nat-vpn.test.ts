@@ -52,7 +52,7 @@ describe("ProxyNatVpn", () => {
           Type: "certificate-authentication",
         },
       ],
-      SplitTunnel: true,
+      SplitTunnel: false,
     });
   });
 

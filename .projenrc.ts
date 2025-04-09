@@ -1,5 +1,4 @@
-import { awscdk } from 'projen';
-import { YamlFile } from 'projen';
+import { awscdk, YamlFile } from 'projen';
 
 const releaseBranch = 'release';
 
@@ -15,7 +14,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  devDeps: ['cdk-nag@2.12.0'],     /* Build dependencies for this module. */
+  devDeps: ['cdk-nag@2.12.0'], /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
 
@@ -72,7 +71,7 @@ new YamlFile(project, '.github/workflows/push.yml', {
       'cancel-in-progress': true,
     },
     permissions: {
-      'contents': 'read',
+      contents: 'read',
     },
     jobs: {
       'check-workflows': {
@@ -189,11 +188,11 @@ new YamlFile(project, '.github/workflows/deploy.yml', {
             name: 'Deploy CDK stack',
             run: 'npx cdk deploy --require-approval never',
             env: {
-              'CDK_DEFAULT_ACCOUNT': '${{ secrets.AWS_ACCOUNT_ID }}',
-              'CDK_DEFAULT_REGION': '${{ secrets.AWS_REGION }}',
-              'SERVER_CERT_ARN': '${{ secrets.SERVER_CERT_ARN }}',
-              'CLIENT_CERT_ARN': '${{ secrets.CLIENT_CERT_ARN }}',
-              'EIP_ALLOCATION_ID': '${{ secrets.EIP_ALLOCATION_ID }}', // Optional, if not provided, a new EIP will be created
+              CDK_DEFAULT_ACCOUNT: '${{ secrets.AWS_ACCOUNT_ID }}',
+              CDK_DEFAULT_REGION: '${{ secrets.AWS_REGION }}',
+              SERVER_CERT_ARN: '${{ secrets.SERVER_CERT_ARN }}',
+              CLIENT_CERT_ARN: '${{ secrets.CLIENT_CERT_ARN }}',
+              EIP_ALLOCATION_ID: '${{ secrets.EIP_ALLOCATION_ID }}', // Optional, if not provided, a new EIP will be created
             },
           },
         ],
