@@ -1,7 +1,7 @@
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as logs from 'aws-cdk-lib/aws-logs';
-import { Construct } from 'constructs';
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as logs from "aws-cdk-lib/aws-logs";
+import { Construct } from "constructs";
 
 export interface ProxyNatVpnProps {
   /**
@@ -46,26 +46,26 @@ export class ProxyNatVpn extends Construct {
     // 指定されたEIP allocation IDがある場合は、それを使用する
     const natGatewayProvider = eipAllocationId
       ? ec2.NatProvider.gateway({
-        eipAllocationIds: [eipAllocationId],
-      })
+          eipAllocationIds: [eipAllocationId],
+        })
       : ec2.NatProvider.gateway(); // デフォルト動作: 自動的に新しいEIPを作成
 
     // Create VPC with public and private subnets
-    this.vpc = new ec2.Vpc(this, 'Vpc', {
+    this.vpc = new ec2.Vpc(this, "Vpc", {
       maxAzs: 1, // Ensure at least 2 AZs for high availability
       subnetConfiguration: [
         {
           cidrMask: 24,
-          name: 'PublicSubnet',
+          name: "PublicSubnet",
           subnetType: ec2.SubnetType.PUBLIC,
         },
         {
           cidrMask: 24,
-          name: 'PrivateSubnet',
+          name: "PrivateSubnet",
           subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
         },
       ],
-      cidr: '10.0.0.0/16',
+      cidr: "10.0.0.0/16",
       natGateways: 1,
       natGatewayProvider: natGatewayProvider,
     });
@@ -74,41 +74,41 @@ export class ProxyNatVpn extends Construct {
 
     this.clientVpnEndpoint = new ec2.ClientVpnEndpoint(
       this,
-      'ClientVpnEndpoint',
+      "ClientVpnEndpoint",
       {
-        cidr: '10.100.0.0/16',
+        cidr: "10.100.0.0/16",
         serverCertificateArn: clientVpnServerCertificateArn,
         clientCertificateArn: clientVpnClientCertificateArn,
         vpc: this.vpc,
         splitTunnel: false,
-        dnsServers: ['10.0.0.2'],
+        dnsServers: ["10.0.0.2"],
         vpcSubnets: {
           subnets: [privateSubnet],
         },
       },
     );
 
-    this.clientVpnEndpoint.addRoute('InternetRoute', {
-      cidr: '0.0.0.0/0',
+    this.clientVpnEndpoint.addRoute("InternetRoute", {
+      cidr: "0.0.0.0/0",
       target: ec2.ClientVpnRouteTarget.subnet(privateSubnet),
-      description: 'Route to the internet via NAT Gateway',
+      description: "Route to the internet via NAT Gateway",
     });
 
-    this.clientVpnEndpoint.addAuthorizationRule('AllowInternet', {
-      cidr: '0.0.0.0/0',
-      description: 'Allow internet access',
+    this.clientVpnEndpoint.addAuthorizationRule("AllowInternet", {
+      cidr: "0.0.0.0/0",
+      description: "Allow internet access",
     });
 
     // Add Vpc FlowLogs
-    const vpcFlowLogGroup = new logs.LogGroup(this, 'VpcFlowLogGroup', {
+    const vpcFlowLogGroup = new logs.LogGroup(this, "VpcFlowLogGroup", {
       retention: logs.RetentionDays.ONE_DAY,
     });
 
-    const vpcFlowLogRole = new iam.Role(this, 'VpcFlowLogRole', {
-      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
+    const vpcFlowLogRole = new iam.Role(this, "VpcFlowLogRole", {
+      assumedBy: new iam.ServicePrincipal("vpc-flow-logs.amazonaws.com"),
     });
 
-    new ec2.FlowLog(this, 'VpcFlowLog', {
+    new ec2.FlowLog(this, "VpcFlowLog", {
       resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
       trafficType: ec2.FlowLogTrafficType.REJECT,
       destination: ec2.FlowLogDestination.toCloudWatchLogs(

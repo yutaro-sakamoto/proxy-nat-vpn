@@ -3,6 +3,8 @@
 This CDK construct sets up a VPC with a NAT gateway and a client VPN endpoint.
 Users can connect to internet resources through the NAT gateway and VPN.
 
+![Architecture](./system-architecture.drawio.png)
+
 ## How to set up the environment
 
 1. Generate certificates and keys adn upload them to [ACM](https://aws.amazon.com/certificate-manager/).

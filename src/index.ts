@@ -1,1 +1,1 @@
-export * from './proxy-nat-vpn';
+export * from "./proxy-nat-vpn";
