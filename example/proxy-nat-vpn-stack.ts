@@ -25,7 +25,7 @@ export class ProxyNatVpnStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: ProxyNatVpnStackProps) {
     super(scope, id, props);
 
-    // ProxyNatVpn Constructをインスタンス化
+    // Instantiate the ProxyNatVpn Construct
     new ProxyNatVpn(this, "ProxyNatVpn", {
       clientVpnServerCertificateArn: props.serverCertArn,
       clientVpnClientCertificateArn: props.clientCertArn,
