@@ -8,7 +8,7 @@ const importTestDir = 'test-import-npm';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: authorName,
   authorAddress: authorEmail,
-  cdkVersion: '2.1.0',
+  cdkVersion: '2.48.0',
   defaultReleaseBranch: releaseBranch,
   jsiiVersion: '~5.8.0',
   name: 'proxy-nat-vpn',
@@ -26,7 +26,7 @@ new awscdk.AwsCdkTypeScriptApp({
   authorName: authorName,
   authorEmail: authorEmail,
   defaultReleaseBranch: releaseBranch,
-  cdkVersion: '2.1.0',
+  cdkVersion: '2.48.0',
   projenrcTs: true,
   deps: ['proxy-nat-vpn'],
   devDeps: ['aws-cdk-lib', 'constructs', 'dotenv'],

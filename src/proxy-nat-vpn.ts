@@ -62,10 +62,10 @@ export class ProxyNatVpn extends Construct {
         {
           cidrMask: 24,
           name: "PrivateSubnet",
-          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
       ],
-      cidr: "10.0.0.0/16",
+      ipAddresses: ec2.IpAddresses.cidr("10.0.0.0/16"),
       natGateways: 1,
       natGatewayProvider: natGatewayProvider,
     });

@@ -46,7 +46,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.1.0",
+    "aws-cdk-lib": "^2.48.0",
     "constructs": "^10.0.5",
     "proxy-nat-vpn": "^0.0.0"
   },
