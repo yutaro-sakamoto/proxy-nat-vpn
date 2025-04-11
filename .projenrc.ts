@@ -14,6 +14,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   name: 'proxy-nat-vpn',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/yutaro-sakamoto/proxy-nat-vpn.git',
+  majorVersion: 1,
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
