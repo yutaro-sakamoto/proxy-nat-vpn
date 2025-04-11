@@ -3,6 +3,7 @@ import { awscdk, YamlFile } from 'projen';
 const releaseBranch = 'release';
 const authorName = 'Yutaro Sakamoto';
 const authorEmail = 'mail@yutaro-sakamoto.com';
+const importTestDir = 'test-import-npm';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: authorName,
@@ -30,12 +31,13 @@ new awscdk.AwsCdkTypeScriptApp({
   deps: ['proxy-nat-vpn'],
   devDeps: ['aws-cdk-lib', 'constructs', 'dotenv'],
   parent: project,
-  outdir: 'test-import-npm',
+  outdir: importTestDir,
 });
 
 project.gitignore.addPatterns('cdk.out');
 project.gitignore.addPatterns('.env');
 project.npmignore?.addPatterns('example');
+project.npmignore?.addPatterns(importTestDir);
 
 new YamlFile(project, '.github/workflows/check-workflows.yml', {
   obj: {

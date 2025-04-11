@@ -23,6 +23,7 @@ tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
 example
+test-import-npm
 /.gitattributes
 /.projenrc.ts
 /projenrc
