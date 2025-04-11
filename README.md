@@ -3,7 +3,7 @@
 This CDK construct sets up a VPC with a NAT gateway and a client VPN endpoint.
 Users can connect to internet resources through the NAT gateway and VPN.
 
-![Architecture](./system-architecture.drawio.png)
+![Architecture](./system-architecture.png)
 
 ## How to set up the environment
 
