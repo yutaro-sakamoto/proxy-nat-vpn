@@ -1,10 +1,12 @@
 import { awscdk, YamlFile } from 'projen';
 
 const releaseBranch = 'release';
+const authorName = 'Yutaro Sakamoto';
+const authorEmail = 'mail@yutaro-sakamoto.com';
 
 const project = new awscdk.AwsCdkConstructLibrary({
-  author: 'Yutaro Sakamoto',
-  authorAddress: 'mail@yutaro-sakamoto.com',
+  author: authorName,
+  authorAddress: authorEmail,
   cdkVersion: '2.1.0',
   defaultReleaseBranch: releaseBranch,
   jsiiVersion: '~5.8.0',
@@ -16,6 +18,19 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   devDeps: ['cdk-nag@2.12.0'], /* Build dependencies for this module. */
   // packageName: undefined,  /* The "name" in package.json. */
+});
+
+new awscdk.AwsCdkTypeScriptApp({
+  name: 'npm-test',
+  authorName: authorName,
+  authorEmail: authorEmail,
+  defaultReleaseBranch: releaseBranch,
+  cdkVersion: '2.1.0',
+  projenrcTs: true,
+  deps: ['proxy-nat-vpn'],
+  devDeps: ['aws-cdk-lib', 'constructs', 'dotenv'],
+  parent: project,
+  outdir: 'test-import-npm',
 });
 
 project.gitignore.addPatterns('cdk.out');
