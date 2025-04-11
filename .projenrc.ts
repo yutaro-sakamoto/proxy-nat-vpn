@@ -1,16 +1,20 @@
 import { awscdk, YamlFile } from 'projen';
 
 const releaseBranch = 'release';
+const authorName = 'Yutaro Sakamoto';
+const authorEmail = 'mail@yutaro-sakamoto.com';
+const importTestDir = 'test-import-npm';
 
 const project = new awscdk.AwsCdkConstructLibrary({
-  author: 'Yutaro Sakamoto',
-  authorAddress: 'mail@yutaro-sakamoto.com',
-  cdkVersion: '2.1.0',
+  author: authorName,
+  authorAddress: authorEmail,
+  cdkVersion: '2.48.0',
   defaultReleaseBranch: releaseBranch,
   jsiiVersion: '~5.8.0',
   name: 'proxy-nat-vpn',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/yutaro-sakamoto/proxy-nat-vpn.git',
+  majorVersion: 1,
 
   // deps: [],                /* Runtime dependencies of this module. */
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
@@ -18,9 +22,24 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // packageName: undefined,  /* The "name" in package.json. */
 });
 
+new awscdk.AwsCdkTypeScriptApp({
+  name: 'npm-test',
+  authorName: authorName,
+  authorEmail: authorEmail,
+  defaultReleaseBranch: releaseBranch,
+  cdkVersion: '2.48.0',
+  projenrcTs: true,
+  deps: ['proxy-nat-vpn'],
+  devDeps: ['aws-cdk-lib', 'constructs', 'dotenv'],
+  parent: project,
+  outdir: importTestDir,
+});
+
 project.gitignore.addPatterns('cdk.out');
 project.gitignore.addPatterns('.env');
 project.npmignore?.addPatterns('example');
+project.npmignore?.addPatterns(importTestDir);
+project.npmignore?.addPatterns('*.drawio');
 
 new YamlFile(project, '.github/workflows/check-workflows.yml', {
   obj: {

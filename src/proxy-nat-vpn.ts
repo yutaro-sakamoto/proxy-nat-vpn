@@ -43,12 +43,13 @@ export class ProxyNatVpn extends Construct {
       eipAllocationId,
     } = props;
 
-    // 指定されたEIP allocation IDがある場合は、それを使用する
+    // If a specified EIP allocation ID is provided, use it
+    // Default behavior: Automatically create a new EIP
     const natGatewayProvider = eipAllocationId
       ? ec2.NatProvider.gateway({
           eipAllocationIds: [eipAllocationId],
         })
-      : ec2.NatProvider.gateway(); // デフォルト動作: 自動的に新しいEIPを作成
+      : ec2.NatProvider.gateway();
 
     // Create VPC with public and private subnets
     this.vpc = new ec2.Vpc(this, "Vpc", {
@@ -62,10 +63,10 @@ export class ProxyNatVpn extends Construct {
         {
           cidrMask: 24,
           name: "PrivateSubnet",
-          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
         },
       ],
-      cidr: "10.0.0.0/16",
+      ipAddresses: ec2.IpAddresses.cidr("10.0.0.0/16"),
       natGateways: 1,
       natGatewayProvider: natGatewayProvider,
     });

@@ -7,12 +7,12 @@ import { Aspects } from "aws-cdk-lib";
 
 const app = new cdk.App();
 
-// AWSソリューションチェックを追加
+// Add AWS Solution Checks
 Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
 
 const serverCertArn = process.env.SERVER_CERT_ARN;
 const clientCertArn = process.env.CLIENT_CERT_ARN;
-// 事前に用意したEIPのallocation IDを環境変数から取得
+// Retrieve the allocation ID of a pre-prepared EIP from environment variables
 const eipAllocationId = process.env.EIP_ALLOCATION_ID;
 
 if (!serverCertArn || !clientCertArn) {
@@ -28,5 +28,5 @@ new ProxyNatVpnStack(app, "ProxyNatVpnStack", {
   },
   serverCertArn,
   clientCertArn,
-  eipAllocationId, // 事前に用意したEIPのallocation IDを渡す（未指定の場合は自動的に新しいEIPが作成される）
+  eipAllocationId, // Pass the allocation ID of a pre-prepared EIP (if not specified, a new EIP will be created automatically)
 });
