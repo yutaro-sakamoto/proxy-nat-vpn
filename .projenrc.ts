@@ -38,6 +38,7 @@ project.gitignore.addPatterns('cdk.out');
 project.gitignore.addPatterns('.env');
 project.npmignore?.addPatterns('example');
 project.npmignore?.addPatterns(importTestDir);
+project.npmignore?.addPatterns('*.drawio');
 
 new YamlFile(project, '.github/workflows/check-workflows.yml', {
   obj: {

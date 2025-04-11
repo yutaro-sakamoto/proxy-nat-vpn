@@ -24,6 +24,7 @@ tsconfig.tsbuildinfo
 !.jsii
 example
 test-import-npm
+*.drawio
 /.gitattributes
 /.projenrc.ts
 /projenrc
